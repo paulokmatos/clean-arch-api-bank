@@ -8,7 +8,7 @@ readonly class Account
      * @throws \RuntimeException
      */
     public function __construct(
-        public int $id,
+        public string $id,
         public string $accountNumber
     ) {
         if (!is_numeric($this->accountNumber)) {
