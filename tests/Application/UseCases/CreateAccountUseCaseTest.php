@@ -20,10 +20,13 @@ class CreateAccountUseCaseTest extends TestCase
 
     public function test_ShouldCreateANewAccount(): void
     {
-        $this->useCase->execute(accountNumber: "209", amount: 20.8);
+        $this->useCase->execute(accountNumber: "209", amount: 20.80);
 
         $account = $this->repository->find("209");
 
+        $accountBalance = $this->repository->getBalance($account->id);
+
         $this->assertEquals("209", $account->accountNumber);
+        $this->assertEquals(2080, $accountBalance->amount->value);
     }
 }

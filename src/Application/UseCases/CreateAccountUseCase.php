@@ -19,6 +19,6 @@ readonly class CreateAccountUseCase
             accountNumber:  $accountNumber
         );
 
-        $this->accountRepository->store($account);
+        $this->accountRepository->store($account, $amount);
     }
 }
