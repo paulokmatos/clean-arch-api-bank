@@ -6,4 +6,4 @@
 /.phpunit.cache
 .env
 .coverage
-.phpunit.result.cache
+*.cache
