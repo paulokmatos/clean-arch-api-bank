@@ -21,5 +21,8 @@
         "phpunit/phpunit": "^11.2",
         "phpstan/phpstan": "^1.11",
         "friendsofphp/php-cs-fixer": "^3.59"
+    },
+    "require": {
+        "bramus/router": "^1.6"
     }
 }
