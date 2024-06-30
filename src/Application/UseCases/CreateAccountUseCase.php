@@ -4,6 +4,7 @@ namespace App\Application\UseCases;
 
 use App\Application\Repositories\IAccountRepository;
 use App\Domain\Entities\Account;
+use App\Domain\ValueObjects\Amount;
 
 readonly class CreateAccountUseCase
 {
@@ -12,6 +13,9 @@ readonly class CreateAccountUseCase
         //
     }
 
+    /**
+     * @throws \Exception
+     */
     public function execute(string $accountNumber, float $amount): void
     {
         $account = new Account(
@@ -19,6 +23,6 @@ readonly class CreateAccountUseCase
             accountNumber:  $accountNumber
         );
 
-        $this->accountRepository->store($account, $amount);
+        $this->accountRepository->store($account, Amount::fromAmountFloat($amount));
     }
 }

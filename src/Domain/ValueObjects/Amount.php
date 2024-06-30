@@ -24,4 +24,14 @@ readonly class Amount
 
         return new self((int) ($integer.$cents));
     }
+
+    public function sum(int $value): self
+    {
+        return new self($this->value + $value);
+    }
+
+    public function subtract(int $value): self
+    {
+        return new self($this->value - $value);
+    }
 }

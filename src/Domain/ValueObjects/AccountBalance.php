@@ -12,4 +12,9 @@ readonly class AccountBalance
             throw new \RuntimeException("Account balance must not be negative", 403);
         }
     }
+
+    public function subtract(Amount $amount): self
+    {
+        return new self(accountId: $this->accountId, amount: $this->amount->subtract($amount->value));
+    }
 }

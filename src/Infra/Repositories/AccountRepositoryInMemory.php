@@ -31,13 +31,18 @@ class AccountRepositoryInMemory implements IAccountRepository
     /**
      * @throws \Exception
      */
-    public function store(Account $account, float $amount): Account
+    public function store(Account $account, Amount $amount): Account
     {
         $this->accounts[$account->accountNumber] = $account;
-        $accountBalance = new AccountBalance($account->id, Amount::fromAmountFloat($amount));
+        $accountBalance = new AccountBalance($account->id, $amount);
 
-        $this->accountBalances[$account->id] = $accountBalance;
+        $this->createOrUpdateBalance($account->id, $accountBalance);
 
         return $account;
+    }
+
+    public function createOrUpdateBalance(string $accountId, AccountBalance $accountBalance): AccountBalance
+    {
+        return $this->accountBalances[$accountId] = $accountBalance;
     }
 }
