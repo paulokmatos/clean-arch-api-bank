@@ -9,6 +9,7 @@ use App\Domain\ValueObjects\Amount;
 readonly class Transaction
 {
     public function __construct(
+        public string $id,
         public string $accountNumber,
         public TransactionTypeEnum $transactionType,
         public Amount $amount
@@ -19,6 +20,7 @@ readonly class Transaction
     public function applyTax(IPaymentTax $paymentTax): self
     {
         return new self(
+            $this->id,
             accountNumber: $this->accountNumber,
             transactionType: $this->transactionType,
             amount: $paymentTax->apply($this->amount)

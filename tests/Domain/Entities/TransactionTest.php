@@ -16,6 +16,7 @@ class TransactionTest extends TestCase
         $amount = new Amount(200);
 
         $transaction = new Transaction(
+            uniqid('', true),
             accountNumber: "2565",
             transactionType: TransactionTypeEnum::PIX,
             amount: $amount
@@ -40,6 +41,7 @@ class TransactionTest extends TestCase
             ->willReturn(new Amount(210));
 
         $transaction = new Transaction(
+            uniqid('', true),
             accountNumber: "2565",
             transactionType: TransactionTypeEnum::PIX,
             amount: $amount
