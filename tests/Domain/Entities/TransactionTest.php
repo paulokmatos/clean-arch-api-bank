@@ -10,7 +10,6 @@ use App\Domain\Entities\Transaction;
 use App\Domain\Enums\TransactionTypeEnum;
 use App\Domain\ValueObjects\Amount;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 class TransactionTest extends TestCase
