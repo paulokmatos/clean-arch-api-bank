@@ -2,22 +2,22 @@
 
 namespace App\Presentation\Routers\RouterDispatcher;
 
+use Closure;
+
 class RouteDispatcher
 {
     /**
-     * @param string[] $params
      *@throws \JsonException
      */
-    public static function dispatch(array $params): void
+    public static function dispatch(Closure $callback): void
     {
         try {
             $request = self::getRequestBody();
-            $controller = new $params[0]();
 
-            $response = $controller->{$params[1]}($request);
+            $response = $callback($request);
 
             if (!$response instanceof JsonResponse) {
-                throw new \RuntimeException(implode('@', $params) . " must return an instance of Response", 500);
+                throw new \RuntimeException("Callback return must be an instance of " . JsonResponse::class, 500);
             }
 
             self::setStatusCode($response->status);

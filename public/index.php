@@ -1,10 +1,10 @@
 <?php
 
-use App\Presentation\Routers\Router;
-use App\Presentation\Routers\RouterAdapter;
+use App\Presentation\Controllers\HealthCheckController;
+use App\Presentation\Routers\BramusRouterAdapter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$router = new Router(new RouterAdapter());
+$router = new BramusRouterAdapter();
 
-$router->register();
+$router->register('get', '/health-check', (new HealthCheckController())->status(...));
