@@ -32,4 +32,15 @@ class CreateAccountUseCaseTest extends TestCase
         $this->assertEquals("209", $account->accountNumber);
         $this->assertEquals(2080, $accountBalance->amount->value);
     }
+
+    public function test_ShouldThrowsExceptionIfAccountAlreadyExists(): void
+    {
+        $this->useCase->execute(accountNumber: "209", amount: 20.80);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Account number already exists");
+        $this->expectExceptionCode(400);
+
+        $this->useCase->execute(accountNumber: "209", amount: 2000);
+    }
 }
