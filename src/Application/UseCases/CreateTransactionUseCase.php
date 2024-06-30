@@ -27,7 +27,7 @@ class CreateTransactionUseCase
         $transaction = new Transaction(uniqid('', true), $accountNumber, $transactionType, $amount);
         $transaction = $transaction->applyTax($this->paymentTax);
 
-        $account = $this->accountRepository->find($accountNumber);
+        $account = $this->accountRepository->findOrFail($accountNumber);
         $accountBalance = $this->accountRepository->getBalance($account->id);
 
         $accountBalance = $accountBalance->subtract($transaction->amount);

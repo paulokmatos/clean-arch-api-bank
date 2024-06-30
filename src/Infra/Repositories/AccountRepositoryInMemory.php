@@ -14,13 +14,21 @@ class AccountRepositoryInMemory implements IAccountRepository
     /** @var AccountBalance[] */
     private array $accountBalances = [];
 
-    public function find(string $accountNumber): Account
+    public function find(string $accountNumber): ?Account
     {
-        if (isset($this->accounts[$accountNumber])) {
-            return $this->accounts[$accountNumber];
+        return $this->accounts[$accountNumber] ?? null;
+    }
+
+    public function findOrFail(string $accountNumber): Account
+    {
+        $account = $this->find($accountNumber);
+
+        if(!$account) {
+            throw new \RuntimeException("Account $accountNumber does not exist", 404);
         }
 
-        throw new \RuntimeException("Account $accountNumber does not exist", 404);
+        return $account;
+
     }
 
     public function getBalance(string $accountId): AccountBalance

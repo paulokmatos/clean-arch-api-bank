@@ -18,6 +18,12 @@ readonly class CreateAccountUseCase
      */
     public function execute(string $accountNumber, float $amount): void
     {
+        $exists = $this->accountRepository->find($accountNumber);
+
+        if($exists) {
+            throw new \Exception("Account number already exists", 400);
+        }
+
         $account = new Account(
             id: uniqid('', true),
             accountNumber:  $accountNumber
