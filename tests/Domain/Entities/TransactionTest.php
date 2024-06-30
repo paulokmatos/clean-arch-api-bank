@@ -49,6 +49,9 @@ class TransactionTest extends TestCase
         $this->assertEquals($valueWithTax, $transaction->amount->value);
     }
 
+    /**
+     * @return array<string, array{0: IPaymentTax, 1: int, 2: int}>
+     */
     public static function taxDataProvider(): array
     {
         return [
