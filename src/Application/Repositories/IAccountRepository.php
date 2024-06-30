@@ -8,7 +8,9 @@ use App\Domain\ValueObjects\Amount;
 
 interface IAccountRepository
 {
-    public function find(string $accountNumber): Account;
+    public function find(string $accountNumber): ?Account;
+
+    public function findOrFail(string $accountNumber): Account;
 
     public function store(Account $account, Amount $amount): Account;
 
