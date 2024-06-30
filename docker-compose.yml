@@ -1,3 +1,5 @@
+version: '3.8' # Adicione a versão do compose
+
 services:
   redis:
     image: 'redis:alpine'
@@ -7,6 +9,7 @@ services:
     working_dir: /application
     volumes:
       - '.:/application'
+      - './init.sql:/docker-entrypoint-initdb.d/init.sql'
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=database
