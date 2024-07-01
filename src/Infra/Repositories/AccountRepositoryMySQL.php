@@ -72,7 +72,7 @@ readonly class AccountRepositoryMySQL implements IAccountRepository
             throw new \Exception('Account balance not found');
         }
 
-        return new AccountBalance($accountId, $result[0]['amount']);
+        return new AccountBalance($accountId, new Amount($result[0]['amount']));
     }
 
     public function createOrUpdateBalance(AccountBalance $accountBalance): AccountBalance

@@ -24,7 +24,7 @@ readonly class TransactionRepositoryMySQL implements ITransactionRepository
             $params = [
                 ':id' => $transaction->id,
                 ':account_number' => $transaction->accountNumber,
-                ':amount' => $transaction->amount,
+                ':amount' => $transaction->amount->value,
                 ':type' => $transaction->transactionType->value
             ];
             $this->db->execute($sql, $params);
