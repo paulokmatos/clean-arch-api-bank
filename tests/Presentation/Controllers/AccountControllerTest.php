@@ -15,16 +15,14 @@ use PHPUnit\Framework\TestCase;
 class AccountControllerTest extends TestCase
 {
     private IAccountRepository $accountRepository;
-    private CreateAccountUseCase $createAccountUseCase;
-    private GetBalanceUseCase $getBalanceUseCase;
     private AccountController $controller;
 
     protected function setUp(): void
     {
         $this->accountRepository = new AccountRepositoryInMemory();
-        $this->createAccountUseCase = new CreateAccountUseCase($this->accountRepository);
+        $createAccountUseCase = new CreateAccountUseCase($this->accountRepository);
         $getBalanceUseCase = new GetBalanceUseCase($this->accountRepository);
-        $this->controller = new AccountController($this->createAccountUseCase, $getBalanceUseCase);
+        $this->controller = new AccountController($createAccountUseCase, $getBalanceUseCase);
     }
 
     /**

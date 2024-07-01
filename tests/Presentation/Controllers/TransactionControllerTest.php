@@ -106,7 +106,7 @@ class TransactionControllerTest extends TestCase
 
         $this->controller->create($request);
     }
-    
+
 
     /**
      * @throws \Exception
@@ -125,14 +125,14 @@ class TransactionControllerTest extends TestCase
             "valor" => $value
         ]);
 
-         $transaction = $this->controller->create($request);
+        $transaction = $this->controller->create($request);
 
-         $this->assertEquals("404", $transaction->content['numero_conta']);
-         $this->assertEquals($balanceAfterTax, $transaction->content['saldo']);
+        $this->assertEquals("404", $transaction->content['numero_conta']);
+        $this->assertEquals($balanceAfterTax, $transaction->content['saldo']);
     }
 
     /**
-     * @return array<string, array{0: IPaymentTax, 1: int, 2: int}>
+     * @return array<string, array{0: string, 1: int, 2: int}>
      */
     public static function taxDataProvider(): array
     {
