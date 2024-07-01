@@ -36,7 +36,7 @@ cd objbank
 
  2 - Suba os containers da aplicação
  ``` bash
-composer install
+docker compose up -d
 ```
 
  3 - Dentro da pasta do repositório, instale as dependencias do composer utilizando o comando:
