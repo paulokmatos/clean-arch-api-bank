@@ -90,7 +90,7 @@ class CreateTransactionUseCaseTest extends TestCase
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Account balance must not be negative");
-        $this->expectExceptionCode(403);
+        $this->expectExceptionCode(404);
 
         $this->accountRepository->store(
             new Account(uniqid('', true), "2000"),

@@ -9,7 +9,7 @@ readonly class AccountBalance
         public Amount $amount
     ) {
         if($this->amount->value < 0) {
-            throw new \RuntimeException("Account balance must not be negative", 403);
+            throw new \RuntimeException("Account balance must not be negative", 404);
         }
     }
 
