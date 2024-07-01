@@ -15,8 +15,7 @@ readonly class TransactionController implements Controller
     public function __construct(
         private CreateTransactionUseCase $transactionUseCase,
         private GetBalanceUseCase $getBalanceUseCase
-    )
-    {
+    ) {
         //
     }
 

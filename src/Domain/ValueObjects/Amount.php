@@ -16,7 +16,7 @@ readonly class Amount
     {
         $exploded = explode('.', (string) $value);
         $integer = (int) $exploded[0];
-        $cents = (int) ($exploded[1] ?? 0);
+        $cents = $exploded[1] ?? "0";
 
         if(strlen($cents) > 2) {
             throw new \Exception("The amount value must be lesser than 2 decimals", 422);

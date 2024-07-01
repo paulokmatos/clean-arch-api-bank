@@ -12,8 +12,7 @@ readonly class AccountController
     public function __construct(
         private CreateAccountUseCase $createAccountUseCase,
         private GetBalanceUseCase $getBalanceUseCase,
-    )
-    {
+    ) {
         //
     }
 
