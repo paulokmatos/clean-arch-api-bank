@@ -32,9 +32,8 @@ class CreateTransactionUseCase
 
         $accountBalance = $accountBalance->subtract($transaction->amount);
 
-        $this->accountRepository->createOrUpdateBalance($account->id, $accountBalance);
+        $this->accountRepository->createOrUpdateBalance($accountBalance);
 
         return $this->transactionRepository->create($transaction);
-
     }
 }

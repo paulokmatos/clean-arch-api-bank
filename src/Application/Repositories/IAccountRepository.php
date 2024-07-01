@@ -16,5 +16,5 @@ interface IAccountRepository
 
     public function getBalance(string $accountId): AccountBalance;
 
-    public function createOrUpdateBalance(string $accountId, AccountBalance $accountBalance): AccountBalance;
+    public function createOrUpdateBalance(AccountBalance $accountBalance): AccountBalance;
 }
