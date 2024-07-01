@@ -6,7 +6,6 @@ use App\Application\Repositories\IAccountRepository;
 use App\Application\Repositories\ITransactionRepository;
 use App\Domain\Contracts\IPaymentTax;
 use App\Domain\Entities\Transaction;
-use App\Domain\Enums\TransactionTypeEnum;
 use App\Domain\ValueObjects\Amount;
 
 class CreateTransactionUseCase
@@ -14,18 +13,17 @@ class CreateTransactionUseCase
     public function __construct(
         protected ITransactionRepository $transactionRepository,
         protected IAccountRepository $accountRepository,
-        protected IPaymentTax $paymentTax
     ) {
         //
     }
 
     public function execute(
         string $accountNumber,
-        TransactionTypeEnum $transactionType,
+        IPaymentTax $paymentTax,
         Amount $amount
     ): Transaction {
-        $transaction = new Transaction(uniqid('', true), $accountNumber, $transactionType, $amount);
-        $transaction = $transaction->applyTax($this->paymentTax);
+        $transaction = new Transaction(uniqid('', true), $accountNumber, $paymentTax->getType(), $amount);
+        $transaction = $transaction->applyTax($paymentTax);
 
         $account = $this->accountRepository->findOrFail($accountNumber);
         $accountBalance = $this->accountRepository->getBalance($account->id);
