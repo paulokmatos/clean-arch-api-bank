@@ -31,9 +31,15 @@ O projeto consiste em um desafio técnico da criação de uma API que realiza cr
 
 ``` bash
 git clone https://github.com/paulokmatos/objbank.git
+cd objbank
 ```
 
- 2 - Dentro da pasta do repositório, instale as dependencias do composer utilizando o comando:
+ 2 - Suba os containers da aplicação
+ ``` bash
+composer install
+```
+
+ 3 - Dentro da pasta do repositório, instale as dependencias do composer utilizando o comando:
  
  ``` bash
 composer install
