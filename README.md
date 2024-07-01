@@ -33,11 +33,18 @@ O projeto consiste em um desafio técnico da criação de uma API que realiza cr
 git clone https://github.com/paulokmatos/objbank.git
 ```
 
- 2 - Instale as dependencias do composer
- composer install
+ 2 - Dentro da pasta do repositório, instale as dependencias do composer utilizando o comando:
+ 
+ ``` bash
+composer install
+```
+ 
 
  obs: caso não tenha o composer instalado na máquina utilize o comando:
- docker exec -i -t obj-bank-api composer install
+ ``` bash
+docker exec -i -t obj-bank-api composer install
+```
+ 
 
  Após executar este comando, o projeto estará acessível na URL: http://localhost:8080.
  
