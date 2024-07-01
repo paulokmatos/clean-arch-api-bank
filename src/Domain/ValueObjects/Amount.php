@@ -14,7 +14,9 @@ readonly class Amount
      */
     public static function fromAmountFloat(float $value): self
     {
-        [$integer, $cents] = explode('.', (string) $value);
+        $exploded = explode('.', (string) $value);
+        $integer = (int) $exploded[0];
+        $cents = (int) ($exploded[1] ?? 0);
 
         if(strlen($cents) > 2) {
             throw new \Exception("The amount value must be lesser than 2 decimals", 422);
@@ -33,5 +35,10 @@ readonly class Amount
     public function subtract(int $value): self
     {
         return new self($this->value - $value);
+    }
+
+    public function parseFloat(): string
+    {
+        return number_format(($this->value / 100), 2);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Presentation\Controllers;
 
 use App\Application\Factories\PaymentTaxFactory;
 use App\Application\UseCases\CreateTransactionUseCase;
+use App\Application\UseCases\GetBalanceUseCase;
 use App\Domain\Enums\TransactionTypeEnum;
 use App\Domain\ValueObjects\Amount;
 use App\Presentation\Routers\RouterDispatcher\JsonResponse;
@@ -11,7 +12,10 @@ use App\Presentation\Routers\RouterDispatcher\Request;
 
 readonly class TransactionController implements Controller
 {
-    public function __construct(private CreateTransactionUseCase $transactionUseCase)
+    public function __construct(
+        private CreateTransactionUseCase $transactionUseCase,
+        private GetBalanceUseCase $getBalanceUseCase
+    )
     {
         //
     }
@@ -44,12 +48,14 @@ readonly class TransactionController implements Controller
         $this->transactionUseCase->execute(
             accountNumber: $accountNumber,
             paymentTax: $taxStrategy,
-            amount: new Amount($amount)
+            amount: Amount::fromAmountFloat($amount)
         );
 
-        //TODO: return account number and account balance
+        $balance = $this->getBalanceUseCase->execute($accountNumber);
+
         return new JsonResponse([
-            'success' => true
+            'numero_conta' => $accountNumber,
+            'saldo' => $balance->amount->parseFloat()
         ]);
     }
 }

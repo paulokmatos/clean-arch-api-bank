@@ -3,12 +3,16 @@
 namespace App\Presentation\Controllers;
 
 use App\Application\UseCases\CreateAccountUseCase;
+use App\Application\UseCases\GetBalanceUseCase;
 use App\Presentation\Routers\RouterDispatcher\JsonResponse;
 use App\Presentation\Routers\RouterDispatcher\Request;
 
 readonly class AccountController
 {
-    public function __construct(private CreateAccountUseCase $createAccountUseCase)
+    public function __construct(
+        private CreateAccountUseCase $createAccountUseCase,
+        private GetBalanceUseCase $getBalanceUseCase,
+    )
     {
         //
     }
@@ -34,7 +38,11 @@ readonly class AccountController
         }
 
         $account = $this->createAccountUseCase->execute($accountNumber, $amount);
+        $balance = $this->getBalanceUseCase->execute($accountNumber);
 
-        return new JsonResponse(['numero_conta' => $account->accountNumber], 201);
+        return new JsonResponse([
+            'numero_conta' => $account->accountNumber,
+            'saldo' => $balance->amount->parseFloat()
+        ], 201);
     }
 }
