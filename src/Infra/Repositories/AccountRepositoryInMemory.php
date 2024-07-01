@@ -44,13 +44,13 @@ class AccountRepositoryInMemory implements IAccountRepository
         $this->accounts[$account->accountNumber] = $account;
         $accountBalance = new AccountBalance($account->id, $amount);
 
-        $this->createOrUpdateBalance($account->id, $accountBalance);
+        $this->createOrUpdateBalance($accountBalance);
 
         return $account;
     }
 
-    public function createOrUpdateBalance(string $accountId, AccountBalance $accountBalance): AccountBalance
+    public function createOrUpdateBalance(AccountBalance $accountBalance): AccountBalance
     {
-        return $this->accountBalances[$accountId] = $accountBalance;
+        return $this->accountBalances[$accountBalance->accountId] = $accountBalance;
     }
 }

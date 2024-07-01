@@ -53,12 +53,8 @@ class AccountRepositoryMySQL implements IAccountRepository
             ];
             $this->db->execute($sql, $params);
 
-            $sql = 'INSERT INTO account_balance (account_id, amount) VALUES (:account_id, :amount)';
-            $params = [
-                ':account_id' => $account->id,
-                ':amount' => $amount->value,
-            ];
-            $this->db->execute($sql, $params);
+            $accountBalance = new AccountBalance($account->id, $amount);
+            $this->createOrUpdateBalance($accountBalance);
 
             $this->db->commit();
             return $account;
@@ -81,12 +77,12 @@ class AccountRepositoryMySQL implements IAccountRepository
         return new AccountBalance($accountId, $result[0]['amount']);
     }
 
-    public function createOrUpdateBalance(string $accountId, AccountBalance $accountBalance): AccountBalance
+    public function createOrUpdateBalance(AccountBalance $accountBalance): AccountBalance
     {
         $sql = 'INSERT INTO account_balance (account_id, amount) VALUES (:account_id, :amount)
                 ON DUPLICATE KEY UPDATE amount = :amount';
         $params = [
-            ':account_id' => $accountId,
+            ':account_id' => $accountBalance->accountId,
             ':amount' => $accountBalance->amount->value,
         ];
         $this->db->execute($sql, $params);
