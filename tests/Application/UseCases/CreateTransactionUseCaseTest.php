@@ -3,12 +3,16 @@
 namespace Tests\Application\UseCases;
 
 use App\Application\PaymentTaxes\CreditCardTax;
+use App\Application\PaymentTaxes\DebitCardTax;
+use App\Application\PaymentTaxes\PixTax;
 use App\Application\Repositories\IAccountRepository;
 use App\Application\UseCases\CreateTransactionUseCase;
+use App\Domain\Contracts\IPaymentTax;
 use App\Domain\Entities\Account;
 use App\Domain\ValueObjects\Amount;
 use App\Infra\Repositories\AccountRepositoryInMemory;
 use App\Infra\Repositories\TransactionRepositoryInMemory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class CreateTransactionUseCaseTest extends TestCase
@@ -64,26 +68,26 @@ class CreateTransactionUseCaseTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function test_ShouldUpdateAccountBalance(): void
+    #[DataProvider('taxDataProvider')]
+    public function test_ShouldUpdateAccountBalance(IPaymentTax $paymentTax, int $value, int $valueWithTax): void
     {
         $account = $this->accountRepository->store(
             new Account(uniqid('', true), "2000"),
             new Amount(300)
         );
 
-
         $transaction = $this->useCase->execute(
             accountNumber: "2000",
-            paymentTax: new CreditCardTax(),
-            amount:  new Amount(200)
+            paymentTax: $paymentTax,
+            amount:  new Amount($value)
         );
 
         $accountBalance = $this->accountRepository->getBalance($account->id);
 
         $this->assertEquals("2000", $transaction->accountNumber);
-        $this->assertEquals("C", $transaction->transactionType->value);
-        $this->assertEquals(210, $transaction->amount->value);
-        $this->assertEquals(90, $accountBalance->amount->value);
+        $this->assertEquals($paymentTax->getType(), $transaction->transactionType);
+        $this->assertEquals($valueWithTax, $transaction->amount->value);
+        $this->assertEquals(300 - $valueWithTax, $accountBalance->amount->value);
     }
 
     public function test_ShouldThrowsExceptionIfAccountBalanceBecomeNegative(): void
@@ -102,5 +106,17 @@ class CreateTransactionUseCaseTest extends TestCase
             paymentTax: new CreditCardTax(),
             amount:  new Amount(200)
         );
+    }
+
+    /**
+     * @return array<string, array{0: IPaymentTax, 1: int, 2: int}>
+     */
+    public static function taxDataProvider(): array
+    {
+        return [
+            'should apply credit card tax' => [new CreditCardTax(), 200, 210],
+            'should apply debit card tax' => [new DebitCardTax(), 200, 206],
+            'should apply pix tax' => [new PixTax(), 200, 200],
+        ];
     }
 }
