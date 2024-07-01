@@ -11,8 +11,8 @@ O projeto consiste em um desafio técnico da criação de uma API que realiza cr
 ## Tecnologias utilizadas
 
 #### **Infraestrutura:** 
- - **Docker:** Ferramenta de virtualização que facilita a criação, o deploy e a execução de aplicações em containers.
- - **Docker Compose:** Utilizado para definir e gerenciar a configuração de múltiplos containers Docker.
+ - **Docker:** Ferramenta de virtualização de containers.
+ - **Docker Compose:** Utilizado para definir e gerenciar os containers Docker.
 
 #### Análise de Código
  - **PHP CS FIXER:** Ferramenta para formatação automática do código PHP.
@@ -23,7 +23,7 @@ O projeto consiste em um desafio técnico da criação de uma API que realiza cr
 
 #### Desenvolvimento
   - **Bramus Router:** Biblioteca de roteamento em PHP utilizada para definir e gerenciar as rotas da aplicação.
-  - **PDO (PHP Data Objects):** Abstração para acesso a bancos de dados em PHP, proporcionando uma interface consistente para diferentes sistemas de gerenciamento de banco de dados com implementação utilizando mysql.
+  - **PDO (PHP Data Objects):** Manipulação de banco de dados mysql.
 
 ### Como iniciar o projeto
 
@@ -41,14 +41,13 @@ docker compose up -d
 
  3 - Dentro da pasta do repositório, instale as dependencias do composer utilizando o comando:
  
- ``` bash
-composer install
-```
- 
-
- obs: caso não tenha o composer instalado na máquina utilize o comando:
- ``` bash
+``` bash
 docker exec -i -t obj-bank-api composer install
+```
+
+ 4 - Copie o arquivo .env.example
+ ``` sh
+cp .env.example .env
 ```
  
 
