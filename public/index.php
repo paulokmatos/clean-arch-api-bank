@@ -10,16 +10,26 @@ use App\Presentation\Controllers\AccountController;
 use App\Presentation\Controllers\HealthCheckController;
 use App\Presentation\Controllers\TransactionController;
 use App\Presentation\Routers\BramusRouterAdapter;
+use Dotenv\Dotenv;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$path = dirname(__FILE__, 2);
+
+$dotenv = Dotenv::createImmutable($path);
+$dotenv->load();
 $router = new BramusRouterAdapter();
 
-// TODO: move credentials to env variables
+$host = $_ENV['DB_HOST'];
+$port = $_ENV['DB_PORT'];
+$dbname = $_ENV['DB_DATABASE'];
+$username = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
+
 $pdoAdapter = new PdoAdapter(
-    dsn: 'mysql:host=obj-bank-mysql;port=3306;dbname=database',
-    username: 'root',
-    password: 'root'
+    dsn: "mysql:host=$host;port=$port;dbname=$dbname",
+    username: $username,
+    password: $password
 );
 
 $accountRepository = new AccountRepositoryMySQL($pdoAdapter);
