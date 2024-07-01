@@ -1,14 +1,10 @@
-version: '3.8' # Adicione a versão do compose
+version: '3.8'
 
 services:
-  redis:
-    image: 'redis:alpine'
-
   mysql:
     image: 'mysql:5.7'
-    working_dir: /application
     volumes:
-      - '.:/application'
+      - '.:/var/www/html/project'
       - './init.sql:/docker-entrypoint-initdb.d/init.sql'
     environment:
       - MYSQL_ROOT_PASSWORD=root
@@ -19,16 +15,9 @@ services:
       - '8082:3306'
 
   webserver:
-    image: 'nginx:alpine'
-    working_dir: /application
+    build: ./
     volumes:
-      - '.:/application'
-      - './nginx.conf:/etc/nginx/conf.d/default.conf'
+      - '.:/var/www/html/project'
+      - './docker/nginx/nginx.conf:/etc/nginx/nginx.conf'
     ports:
       - '8080:80'
-
-  php-fpm:
-    build: ./
-    working_dir: /application
-    volumes:
-      - '.:/application'
