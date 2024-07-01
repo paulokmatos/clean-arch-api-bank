@@ -8,5 +8,5 @@ interface ITransactionRepository
 {
     public function create(Transaction $transaction): Transaction;
 
-    public function find(string $transactionId): Transaction;
+    public function find(string $transactionId): ?Transaction;
 }

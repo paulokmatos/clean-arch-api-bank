@@ -1,10 +1,13 @@
 <?php
 
 use App\Application\UseCases\CreateAccountUseCase;
+use App\Application\UseCases\CreateTransactionUseCase;
 use App\Infra\Database\PdoAdapter;
 use App\Infra\Repositories\AccountRepositoryMySQL;
+use App\Infra\Repositories\TransactionRepositoryMySQL;
 use App\Presentation\Controllers\AccountController;
 use App\Presentation\Controllers\HealthCheckController;
+use App\Presentation\Controllers\TransactionController;
 use App\Presentation\Routers\BramusRouterAdapter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -19,9 +22,12 @@ $pdoAdapter = new PdoAdapter(
 );
 
 $accountRepository = new AccountRepositoryMySQL($pdoAdapter);
+$transactionRepository = new TransactionRepositoryMySQL($pdoAdapter);
 $createAccountUseCase = new CreateAccountUseCase($accountRepository);
+$createTransactionUseCase = new CreateTransactionUseCase($transactionRepository, $accountRepository);
 
 $router->register('get', '/health-check', (new HealthCheckController())->status(...));
 $router->register('post', '/conta', (new AccountController($createAccountUseCase))->create(...));
+$router->register('post', '/transacao', (new TransactionController($createTransactionUseCase))->create(...));
 
 $router->run();
