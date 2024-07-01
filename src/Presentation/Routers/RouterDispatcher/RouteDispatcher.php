@@ -47,7 +47,7 @@ class RouteDispatcher
         }
 
         if (!empty($jsonContent)) {
-            $data = [...$data, json_decode($jsonContent, true, 512, JSON_THROW_ON_ERROR)];
+            $data = [...$data, ...json_decode($jsonContent, true, 512, JSON_THROW_ON_ERROR)];
         }
 
         return new Request($data);

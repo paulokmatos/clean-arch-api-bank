@@ -16,7 +16,7 @@ readonly class CreateAccountUseCase
     /**
      * @throws \Exception
      */
-    public function execute(string $accountNumber, float $amount): void
+    public function execute(string $accountNumber, float $amount): Account
     {
         $exists = $this->accountRepository->find($accountNumber);
 
@@ -29,6 +29,6 @@ readonly class CreateAccountUseCase
             accountNumber:  $accountNumber
         );
 
-        $this->accountRepository->store($account, Amount::fromAmountFloat($amount));
+        return $this->accountRepository->store($account, Amount::fromAmountFloat($amount));
     }
 }
