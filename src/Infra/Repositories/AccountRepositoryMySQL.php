@@ -8,13 +8,11 @@ use App\Domain\ValueObjects\AccountBalance;
 use App\Domain\ValueObjects\Amount;
 use App\Infra\Database\ISqlAdapter;
 
-class AccountRepositoryMySQL implements IAccountRepository
+readonly class AccountRepositoryMySQL implements IAccountRepository
 {
-    private ISqlAdapter $db;
-
-    public function __construct(ISqlAdapter $db)
+    public function __construct(private ISqlAdapter $db)
     {
-        $this->db = $db;
+        //
     }
 
     public function find(string $accountNumber): ?Account

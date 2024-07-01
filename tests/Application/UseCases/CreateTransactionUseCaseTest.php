@@ -4,11 +4,8 @@ namespace Tests\Application\UseCases;
 
 use App\Application\PaymentTaxes\CreditCardTax;
 use App\Application\Repositories\IAccountRepository;
-use App\Application\Repositories\ITransactionRepository;
 use App\Application\UseCases\CreateTransactionUseCase;
-use App\Domain\Contracts\IPaymentTax;
 use App\Domain\Entities\Account;
-use App\Domain\Enums\TransactionTypeEnum;
 use App\Domain\ValueObjects\Amount;
 use App\Infra\Repositories\AccountRepositoryInMemory;
 use App\Infra\Repositories\TransactionRepositoryInMemory;
@@ -16,20 +13,17 @@ use PHPUnit\Framework\TestCase;
 
 class CreateTransactionUseCaseTest extends TestCase
 {
-    private IPaymentTax $paymentTax;
     private IAccountRepository $accountRepository;
-    private ITransactionRepository $transactionRepository;
     private CreateTransactionUseCase $useCase;
 
     protected function setUp(): void
     {
         $this->accountRepository = new AccountRepositoryInMemory();
-        $this->paymentTax = new CreditCardTax();
-        $this->transactionRepository = new TransactionRepositoryInMemory();
+        $transactionRepository = new TransactionRepositoryInMemory();
+
         $this->useCase = new CreateTransactionUseCase(
-            transactionRepository: $this->transactionRepository,
-            accountRepository: $this->accountRepository,
-            paymentTax: $this->paymentTax
+            transactionRepository: $transactionRepository,
+            accountRepository: $this->accountRepository
         );
     }
 
@@ -45,8 +39,8 @@ class CreateTransactionUseCaseTest extends TestCase
 
         $transaction = $this->useCase->execute(
             accountNumber: "2000",
-            transactionType: TransactionTypeEnum::CREDIT,
-            amount:  new Amount(200)
+            paymentTax: new CreditCardTax(),
+            amount: new Amount(200)
         );
 
         $this->assertEquals("2000", $transaction->accountNumber);
@@ -62,7 +56,7 @@ class CreateTransactionUseCaseTest extends TestCase
 
         $this->useCase->execute(
             accountNumber: "2567",
-            transactionType: TransactionTypeEnum::CREDIT,
+            paymentTax: new CreditCardTax(),
             amount:  new Amount(200)
         );
     }
@@ -80,7 +74,7 @@ class CreateTransactionUseCaseTest extends TestCase
 
         $transaction = $this->useCase->execute(
             accountNumber: "2000",
-            transactionType: TransactionTypeEnum::CREDIT,
+            paymentTax: new CreditCardTax(),
             amount:  new Amount(200)
         );
 
@@ -105,7 +99,7 @@ class CreateTransactionUseCaseTest extends TestCase
 
         $this->useCase->execute(
             accountNumber: "2000",
-            transactionType: TransactionTypeEnum::CREDIT,
+            paymentTax: new CreditCardTax(),
             amount:  new Amount(200)
         );
     }
