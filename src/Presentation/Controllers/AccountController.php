@@ -21,7 +21,7 @@ readonly class AccountController
         $accountNumber = $request->get('numero_conta');
 
         if (!is_numeric($accountNumber) || is_float($accountNumber)) {
-            throw new \RuntimeException("'numero_conta' must be numeric of type int");
+            throw new \RuntimeException("'numero_conta' must be numeric of type int", 422);
         }
 
         $balance = $this->getBalanceUseCase->execute($accountNumber);
@@ -41,15 +41,15 @@ readonly class AccountController
         $amount = $request->get('saldo');
 
         if (!$accountNumber || !$amount) {
-            throw new \RuntimeException("required parameter 'numero_conta' and 'saldo'");
+            throw new \RuntimeException("required parameter 'numero_conta' and 'saldo'", 422);
         }
 
         if (!is_numeric($amount)) {
-            throw new \RuntimeException("'saldo' must be numeric of type float");
+            throw new \RuntimeException("'saldo' must be numeric of type float", 422);
         }
 
         if (!is_numeric($accountNumber) || is_float($accountNumber)) {
-            throw new \RuntimeException("'numero_conta' must be numeric of type int");
+            throw new \RuntimeException("'numero_conta' must be numeric of type int", 422);
         }
 
         $account = $this->createAccountUseCase->execute($accountNumber, $amount);
