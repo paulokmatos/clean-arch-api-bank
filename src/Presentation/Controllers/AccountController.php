@@ -17,6 +17,22 @@ readonly class AccountController
         //
     }
 
+    public function find(Request $request): JsonResponse
+    {
+        $accountNumber = $request->get('numero_conta');
+
+        if (!is_numeric($accountNumber) || is_float($accountNumber)) {
+            throw new \RuntimeException("'numero_conta' must be numeric of type int");
+        }
+
+        $balance = $this->getBalanceUseCase->execute($accountNumber);
+
+        return new JsonResponse([
+            'numero_conta' => $accountNumber,
+            'saldo' => $balance->amount->parseFloat()
+        ], 200);
+    }
+
     /**
      * @throws \Exception
      */
@@ -26,15 +42,15 @@ readonly class AccountController
         $amount = $request->get('saldo');
 
         if (!$accountNumber || !$amount) {
-            throw new \Exception("required parameter 'numero_conta' and 'saldo'");
+            throw new \RuntimeException("required parameter 'numero_conta' and 'saldo'");
         }
 
         if (!is_numeric($amount)) {
-            throw new \Exception("'saldo' must be numeric of type float");
+            throw new \RuntimeException("'saldo' must be numeric of type float");
         }
 
         if (!is_numeric($accountNumber) || is_float($accountNumber)) {
-            throw new \Exception("'numero_conta' must be numeric of type int");
+            throw new \RuntimeException("'numero_conta' must be numeric of type int");
         }
 
         $account = $this->createAccountUseCase->execute($accountNumber, $amount);
