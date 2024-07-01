@@ -8,3 +8,5 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $router = new BramusRouterAdapter();
 
 $router->register('get', '/health-check', (new HealthCheckController())->status(...));
+
+$router->run();

@@ -32,7 +32,10 @@ class BramusRouterAdapter implements IRouterAdapter
         $this->router->match(strtoupper($method), $uri, function () use ($callback) {
             RouteDispatcher::dispatch($callback);
         });
+    }
 
+    public function run(): void
+    {
         $this->router->run();
     }
 }
