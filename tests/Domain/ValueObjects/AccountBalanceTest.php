@@ -21,7 +21,7 @@ class AccountBalanceTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage("Account balance must not be negative");
-        $this->expectExceptionCode(403);
+        $this->expectExceptionCode(404);
 
         $amount = new Amount(value: -100);
         new AccountBalance(accountId: "uid", amount: $amount);
