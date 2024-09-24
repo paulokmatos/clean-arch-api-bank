@@ -1,5 +1,3 @@
-# Desafio Técnico - OBJECTIVE
-
 ## Resumo do Projeto
 O projeto consiste em um desafio técnico da criação de uma API que realiza criação de contas e operações de pagamento.
 
